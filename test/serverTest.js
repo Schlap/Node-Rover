@@ -30,4 +30,14 @@ describe('Homepage', function(){
 
     });
   });
+
+  it('should include a button that says light on', function(done){
+
+    browser.visit('/', function(error){
+      assert.ifError
+
+    expect(browser.text('button')).to.eql('Light on')
+    done();
+    });
+  });
 });
