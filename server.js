@@ -20,7 +20,6 @@ io.on('connection', function(socket){
 
     console.log('on')
     socket.emit('led-switch', msg);
-    console.log(msg)
     if (board.isReady) {
       var led = new five.Led(6);
       led.on()
@@ -32,14 +31,20 @@ io.on('connection', function(socket){
   socket.on('led-switch-off', function(){
 
     console.log('off')
-    if(board.isReady) {var led = new five.Led(6);
-      led.off()}
+    if(board.isReady) {
+      var led = new five.Led(6);
+      led.off();
+    };
   });
 });
 
-
-
-server.listen(3000)
-console.log("Listening to port: *3000")
+var port = process.env.PORT || 3000
 
 module.exports = server;
+
+if (!module.parent) {
+  server.listen(port, function() {
+    console.log("Server listening on " + port);
+  })
+}
+
