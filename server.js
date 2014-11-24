@@ -19,11 +19,10 @@ io.on('connection', function(socket){
     console.log('on')
     if (board.isReady) {var led = new five.Led(6);
       led.on()}
-    });
-  
-  console.log('Something');
+  });
 
   socket.on('led-switch-off', function(){
+
     console.log('off')
     if(board.isReady) {var led = new five.Led(6);
       led.off()}
@@ -35,4 +34,4 @@ io.on('connection', function(socket){
 server.listen(3000)
 console.log("Listening to port: *3000")
 
-module.exports = server
+module.exports = server;
