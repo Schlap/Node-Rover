@@ -54,7 +54,7 @@ describe('Homepage', function(){
       socket = io.connect('http://localhost:5000', {
             'reconnection delay' : 0
             , 'reopen delay' : 0
-            , 'force new connection' : true
+            , 'force new cosnection' : true
       });
 
       socket.connect();
