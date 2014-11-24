@@ -4,6 +4,7 @@ var expect = chai.expect;
 var assert = chai.assert
 var Browser = require('zombie');
 var server = require('../server.js')
+var socket = require('socket.io')
 
 
 describe('Homepage', function(){
