@@ -1,0 +1,22 @@
+{
+  "name": "project-noderover",
+  "version": "1.0.0",
+  "description": "We are building a robot from scratch using node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Schlap/project-noderover.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Schlap/project-noderover/issues"
+  },
+  "homepage": "https://github.com/Schlap/project-noderover",
+  "dependencies": {
+    "express": "^4.10.3"
+  }
+}
