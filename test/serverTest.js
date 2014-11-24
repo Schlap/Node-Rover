@@ -57,23 +57,20 @@ describe('Homepage', function(){
             , 'force new connection' : true
       });
 
-      socket.on('connect', function(){
-        console.log("Working");
-        
-      });
-
-      socket.on('disconnect', function(){
-        console.log('disconnected');
-      });
+      socket.connect();
       done();
     });
+   
+    it('should emit message', function(done) {
+      socket.once("led-switch", function (message) {
+        expect(message).to.eql("Guten Tag!")
+        socket.disconnect();
+        done();
+      });
 
-  
-    it('should turn on', function(){
-
-      browser.pressButton('#light-on');
-      expect(socket).to.eql('led-switch')
+      socket.emit("led-switch", "Guten Tag!");
       
     });
+
   });
 });
