@@ -17,14 +17,14 @@
 
       function lightOn(socket){
         $('#light-on').on('click', function(){
-          socket.emit('led-switch');
+          socket.emit('led-switch', "Hello!");
         });
       }
 
       function lightOff(socket) {
         $('#light-off').on('click', function(){
           console.log('Off');
-          socket.emit('led-switch-off');
+          socket.emit('led-switch-off', "Hello!");
         });
       }
       </script>

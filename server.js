@@ -14,11 +14,19 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket){
   
 
-  socket.on('led-switch', function(){
+  socket.on('led-switch', function(msg, callback){
+
+    callback = callback || function() {};
 
     console.log('on')
-    if (board.isReady) {var led = new five.Led(6);
-      led.on()}
+    socket.emit('led-switch', msg);
+    console.log(msg)
+    if (board.isReady) {
+      var led = new five.Led(6);
+      led.on()
+    };
+
+    callback(null, "Done.");
   });
 
   socket.on('led-switch-off', function(){
