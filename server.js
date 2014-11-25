@@ -32,7 +32,7 @@ Server.prototype.run = function(port) {
   var _this = this;
   before(function(done) {
     _this.listen(port);
-    setTimeout(done, 6000);
+    setTimeout(done, 5000)
   })
   
   after(function(done) {
@@ -42,7 +42,6 @@ Server.prototype.run = function(port) {
 
 
 Server.prototype.destroy = function(cback) {
-  console.log(this._server)
   this._server.close(cback || function() {})
 }
 
