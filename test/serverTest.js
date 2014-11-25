@@ -3,13 +3,11 @@ var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert
 var Browser = require('zombie');
-var server = require('../server.js');
+var Server = require('../server');
 var socket = require('socket.io');
-var five = require('johnny-five');
 var io = require('socket.io-client');
 
 describe('Homepage', function(){
-
  
 
   // it('should say hello you', function(done){
@@ -36,20 +34,11 @@ describe('Homepage', function(){
   describe('turning on and off the light', function(){
 
     var socket;
-
     var browser = null;
 
-    before(function(done){
-      this.server = server.listen(5000);
-      browser = Browser.create({site: "http://localhost:5000"})
-      done();
-    });
+    this.server = new Server().run(5000)
 
-    after(function(done){
-      this.server.close(done)
-    });
-
-    beforeEach(function(done){
+    beforeEach(function(done) {
 
       socket = io.connect('http://localhost:5000', {
             'reconnection delay' : 0
