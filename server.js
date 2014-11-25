@@ -1,21 +1,25 @@
 var express = require('express');
-var http = require('http')
+var app = express();
+var http = require('http');
 var five = require('johnny-five');
-var io = require('socket.io')
+var board = new five.Board();
+var server = http.createServer(app);
+var io = require('socket.io')(server)
+
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/views/index.html');
+});
 
 
 
 function Server() {
-  this.app = express()
-  this.board = new five.Board();
-  this.server = http.createServer(this.app);
-  this.io = io(this.server)
-  this.app.use(express.static(__dirname + '/public'));
-
-  this.app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
-});
-}
+  this.app = app
+  this.board = board
+  this.server = server
+  this.io = io
+ }
 
 Server.prototype.init = function() {
   this.setEventHandlers(); 
