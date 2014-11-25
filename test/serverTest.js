@@ -3,13 +3,11 @@ var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert
 var Browser = require('zombie');
-var server = require('../server.js');
+var Server = require('../server');
 var socket = require('socket.io');
-var five = require('johnny-five');
 var io = require('socket.io-client');
 
 describe('Homepage', function(){
-
  
 
   // it('should say hello you', function(done){
@@ -36,25 +34,19 @@ describe('Homepage', function(){
   describe('turning on and off the light', function(){
 
     var socket;
-
     var browser = null;
 
-    before(function(done){
-      this.server = server.listen(5000);
-      browser = Browser.create({site: "http://localhost:5000"})
-      done();
-    });
+    _this = this;
+    this.app = new Server()
+    this.board = this.app.board
+    this._server = this.app.run(5000)
 
-    after(function(done){
-      this.server.close(done)
-    });
-
-    beforeEach(function(done){
+    beforeEach(function(done) {
 
       socket = io.connect('http://localhost:5000', {
             'reconnection delay' : 0
             , 'reopen delay' : 0
-            , 'force new cosnection' : true
+            , 'force new connection' : true
       });
 
       socket.connect();
@@ -62,8 +54,10 @@ describe('Homepage', function(){
     });
    
     it('should emit message', function(done) {
+      expect(_this.board.pins['6']['value']).to.eql(0)
       socket.once("led-switch", function (message) {
-        expect(message).to.eql("Guten Tag!")
+        expect(message).to.eql("Guten Tag!")  
+        expect(_this.board.pins['6']['value']).to.eql(255)
         socket.disconnect();
         done();
       });
