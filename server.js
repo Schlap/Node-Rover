@@ -5,7 +5,7 @@ var five = require('johnny-five');
 var board = new five.Board();
 var server = http.createServer(app);
 var io = require('socket.io')(server)
-var Motor = require('./lib/motor');
+var Controller = require('./lib/controller');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -13,11 +13,10 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
-
 function Server() {
-  this.app = app
-  this.board = board
+  this.app = app 
+  this.board = board 
+  this.controller = new Controller(board);
   this.server = server
   this.io = io
  }
@@ -37,7 +36,7 @@ Server.prototype.run = function(port) {
   var _this = this;
   before(function(done) {
     _this.listen(port);
-    setTimeout(done, 5000)
+    setTimeout(done, 8000)
   })
   
   after(function(done) {
@@ -60,24 +59,8 @@ Server.prototype.setEventHandlers = function() {
 
 Server.prototype.onSocketConnection = function(socket, _this) {
   console.log('connected ' + socket.id)
-  socket.on('right', function() {return _this.onRight(this, _this)});
+  _this.controller.init(socket)
 }
-
-Server.prototype.onRight = function(socket, _this) {
-  if (_this.board.isReady) {
-    var motor1 = new Motor(_this.board, 5, 4);
-    motor1.forward()
-    socket.emit("right");
-  };
-}
-
-// Server.prototype.onLedOff = function(msg, socket, _this) {
-//   if(this.board.isReady) {
-//     var led = new five.Led(6);
-//     led.off();
-//     console.log('off')
-//   };
-// }
 
 var port = process.env.PORT || 3000
 
