@@ -1,0 +1,32 @@
+<!DOCTYPE html> 
+<head>
+  <title>Node Rover</title>
+</head>
+  <body>
+    <h1>Hello you</h1>
+    <br><button id='light-on'>Light on</button></br>
+    <br><button id='light-off'>Light off</button></br>
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="js/socket.io"></script>
+      <script>
+      $(document).ready(function(){
+        var socket = io();
+        lightOn(socket);
+        lightOff(socket);
+      });
+
+      function lightOn(socket){
+        $('#light-on').on('click', function(){
+          socket.emit('led-switch', "Hello!");
+        });
+      }
+
+      function lightOff(socket) {
+        $('#light-off').on('click', function(){
+          console.log('Off');
+          socket.emit('led-switch-off', "Hello!");
+        });
+      }
+      </script>
+  </body>
+</html>
