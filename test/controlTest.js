@@ -30,18 +30,55 @@ describe('Basic Rover Movements', function(){
   });
  
   it('should turn right', function(done) {
-    socket.once("right", function () { 
+    socket.on("right", function () {  // check once!!!
+      console.log(_this.board.pins)
       expect(_this.board.pins['5']['value']).to.be.above(0);
-      stop(5);
       socket.disconnect();
+      stop([5, 3, 6, 9]);
       done();
+    
     });
     socket.emit("right");
     
   });
 
+  // it('should turn left', function(done) {
+  //   socket.once("left", function () { 
+  //     expect(_this.board.pins['3']['value']).to.be.above(0);
+  //     stop([5, 3, 6, 9]);
+  //     socket.disconnect();
+  //     done();
+  //   });
+  //   socket.emit("left");
+    
+  // });
+
+  // it('should turn right', function(done) {
+  //   socket.once("right", function () { 
+  //     expect(_this.board.pins['5']['value']).to.be.above(0);
+  //     // stop(5);
+  //     socket.disconnect();
+  //     done();
+  //   });
+  //   socket.emit("right");
+    
+  // });
+
+  // it('should turn right', function(done) {
+  //   socket.once("right", function () { 
+  //     expect(_this.board.pins['5']['value']).to.be.above(0);
+  //     // stop(5);
+  //     socket.disconnect();
+  //     done();
+  //   });
+  //   socket.emit("right");
+    
+  // });
+
 });
 
-function stop(pin) {
-  new five.Motor({pin: pin})
+function stop(pins) {
+  for (var i = 0; i < pins.length; i++) {
+    new five.Motor({pin: pin[i]}).stop();
+  }
 }
