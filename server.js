@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var http = require('http');
 var five = require('johnny-five');
-var board = new five.Board();
 var server = http.createServer(app);
 var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
@@ -14,9 +13,9 @@ app.get('/', function(req, res) {
 });
 
 function Server() {
-  this.app = app 
-  this.board = board 
-  this.controller = new Controller(board);
+  this.app = app; 
+  this.board = new five.Board();
+  this.controller = new Controller(this.board); 
   this.server = server
   this.io = io
  }
