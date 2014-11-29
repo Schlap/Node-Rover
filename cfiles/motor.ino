@@ -1,3 +1,8 @@
+#include "Arduino.h"
+#include <WiFlyHQ.h>
+
+WiFly wifly;
+
 //Motors
 
 int pwm_a = 3; //ch1
@@ -13,6 +18,9 @@ int dir_d = 8; //ch4
 #define HIGH 0x1
 #define LOW 0x0
 
+char buf[32];
+
+// 2 is right motors 1 is left motors
 
 void setup()
 {
@@ -25,13 +33,19 @@ void setup()
   pinMode(dir_a,OUTPUT); 
   pinMode(dir_b,OUTPUT); 
   pinMode(dir_c,OUTPUT); 
-  pinMode(dir_d,OUTPUT); 
+  pinMode(dir_d,OUTPUT);
+  
+  if (!wifly.begin(&Serial, NULL)) {
+     Serial.println("Failed to start wifly");
+    }
+  Serial.println(wifly.getIP(buf, sizeof(buf)));  
+  
 }
 
 void loop()
-{
+{ 
   if (Serial.available()) {
-    byte b = Serial.read();
+    byte b = Serial.read();    
     Serial.println(b);
       if (b == 'w') {
 
@@ -41,9 +55,9 @@ void loop()
       digitalWrite(dir_d,LOW);
 
       analogWrite(pwm_a,200); // provide power to all motors
-      analogWrite(pwm_b,200);
+      analogWrite(pwm_b,220);
       analogWrite(pwn_c,200);
-      analogWrite(pwn_d,200);
+      analogWrite(pwn_d,220);
     }
 
     if (b == 's') { 
@@ -85,7 +99,7 @@ void loop()
     
      if (b == 'r') {
 
-      digitalWrite(dir_a,LOW); // turn all motors forward
+      digitalWrite(dir_a,LOW); // turn all motors backwards
       digitalWrite(dir_b,LOW); 
       digitalWrite(dir_c,HIGH);
       digitalWrite(dir_d,HIGH);
