@@ -2,6 +2,12 @@
 #include <WiFlyHQ.h>
 
 WiFly wifly;
+byte server[] = { 127, 0, 0, 1};
+
+const char mySSID[] = "ZyXEL1374utj";
+const char myPassword[] = "yaahctjwae";
+
+const char site[] = "192.168.1.34";
 
 //Motors
 
@@ -24,7 +30,10 @@ char buf[32];
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(57600);
+  
+  delay(1000);
+  
   pinMode(pwm_a,OUTPUT); 
   pinMode(pwm_b,OUTPUT); 
   pinMode(pwn_c,OUTPUT); 
@@ -37,13 +46,53 @@ void setup()
   
   if (!wifly.begin(&Serial, NULL)) {
      Serial.println("Failed to start wifly");
-    }
-  Serial.println(wifly.getIP(buf, sizeof(buf)));  
+  }
   
+  if (!wifly.isAssociated()) {
+  /* Setup the WiFly to connect to a wifi network */
+  Serial.println("Joining network");
+  wifly.setSSID(mySSID);
+  wifly.setPassphrase(myPassword);
+  wifly.enableDHCP();
+
+  if (wifly.join()) {
+      Serial.println("Joined wifi network");
+  } else {
+      Serial.println("Failed to join wifi network");
+  }
+    } else {
+        Serial.println("Already joined network");
+    }
+   
+   Serial.println("WiFly ready");
+   Serial.println(wifly.getIP(buf, sizeof(buf)));
+   
+   if (wifly.isConnected()) {
+        Serial.println("Old connection active. Closing");
+  wifly.close();
+    }
 }
+
+uint32_t connectTime = 0;
 
 void loop()
 { 
+  int available;
+    
+  if (wifly.isConnected() == false) {
+  Serial.println("Connecting");
+  if (wifly.open("192.168.1.34", 1337)) {
+      Serial.println("Connected");
+      connectTime = millis();
+  } else {
+      Serial.println("Failed to open");
+  }
+    } else {
+  available = wifly.available();
+  if (available < 0) {
+      Serial.println("Disconnected");
+  }
+  
   if (Serial.available()) {
     byte b = Serial.read();    
     Serial.println(b);
@@ -109,6 +158,9 @@ void loop()
       analogWrite(pwn_c,200);
       analogWrite(pwn_d,200);
     }
-  }
-
+   } 
+ }
 }
+ 
+
+ 
