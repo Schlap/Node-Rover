@@ -2,7 +2,7 @@
   "name": "project-noderover",
   "version": "1.0.0",
   "description": "We are building a robot from scratch using node.js",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
