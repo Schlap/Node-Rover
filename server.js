@@ -1,10 +1,10 @@
 var express = require('express');
 var app = express();
 var http = require('http');
-var five = require('johnny-five');
 var server = http.createServer(app);
 var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
+var net = require('net');
 
 var arduinoTcp = null;
 
@@ -16,8 +16,7 @@ app.get('/', function(req, res) {
 
 function Server() {
   this.app = app; 
-  this.board = new five.Board();
-  this.controller = new Controller(this.board); 
+  this.controller = new Controller 
   this.server = server
   this.io = io
  }
@@ -27,17 +26,18 @@ Server.prototype.init = function() {
 };
 
 Server.prototype.listen = function(port) {
-  this.init();
   this._server = this.server.listen(port, function() {
     console.log("listening on " + port);
   });
+   this.init();
 };
 
 Server.prototype.run = function(port) {
   var _this = this;
   before(function(done) {
     _this.listen(port);
-    setTimeout(done, 8000)
+
+    setTimeout(done(), 4000);
   })
   
   after(function(done) {
@@ -47,6 +47,7 @@ Server.prototype.run = function(port) {
 
 
 Server.prototype.destroy = function(cback) {
+  console.log(this._server)
   this._server.close(cback || function() {})
 }
 
@@ -60,7 +61,7 @@ Server.prototype.setEventHandlers = function() {
 
 Server.prototype.onSocketConnection = function(socket, _this) {
   console.log('connected ' + socket.id)
-  _this.controller.init(socket)
+  _this.controller.init(socket, arduinoTcp)
 }
 
 //TCP server for arduino
@@ -87,4 +88,3 @@ module.exports = Server;
 if (!module.parent) {
     new Server().listen(port)
 }
-
