@@ -11,46 +11,9 @@
     <br><button id='brake'>Brake!</button></br>
     <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
     <script src="js/socket.io"></script>
-      <script>
-      $(document).ready(function(){
-        var socket = io();
-        onRight(socket);
-        onLeft(socket);
-        onForward(socket);
-        onReverse(socket);
-        onBrake(socket);
-      });
+    <script src="js/controller.js"></script>
+    <script src="js/interface.js"></script>
+     
 
-      function onRight(socket){
-        $('#right').on('click', function(){
-          socket.emit('right');
-        });
-      }
-
-       function onLeft(socket){
-        $('#left').on('click', function(){
-          socket.emit('left');
-        });
-      }
-
-      function onForward(socket){
-        $('#forward').on('click', function(){
-          socket.emit('forward');
-        });
-      }
-
-      function onReverse(socket){
-        $('#reverse').on('click', function(){
-          socket.emit('reverse');
-        });
-      }
-
-      function onBrake(socket){
-        $('#brake').on('click', function(){
-          socket.emit('brake');
-        });
-      }
-
-      </script>
   </body>
 </html>

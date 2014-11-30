@@ -47,7 +47,6 @@ Server.prototype.run = function(port) {
 
 
 Server.prototype.destroy = function(cback) {
-  console.log(this._server)
   this._server.close(cback || function() {})
 }
 

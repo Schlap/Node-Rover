@@ -6,6 +6,7 @@ var Browser = require('zombie');
 var Server = require('../server');
 var socket = require('socket.io');
 var io = require('socket.io-client');
+var net = require('net');
 
 var url = 'http://localhost:5000';
 
@@ -21,13 +22,13 @@ describe('Socket transmission', function (){
 
 
   it('should emit right', function(done){
+    var client = net.connect({ port: 1337 })
     var socket = io.connect(url, options);
     socket.once('connect', function(){
        socket.once('right', function(msg){
         expect(msg).to.eql('turning right');
         done();
     });
-       console.log(_this._server);
     socket.emit('right')
     });
    
@@ -64,6 +65,7 @@ describe('Socket transmission', function (){
   var socket = io.connect(url, options);
       socket.once('brake', function(msg){
         expect(msg).to.eql('braking');
+        socket.disconnect();
         done();
     });
     socket.emit('brake')
