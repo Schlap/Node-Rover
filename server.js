@@ -6,6 +6,8 @@ var server = http.createServer(app);
 var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
 
+var arduinoTcp = null;
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
@@ -60,6 +62,23 @@ Server.prototype.onSocketConnection = function(socket, _this) {
   console.log('connected ' + socket.id)
   _this.controller.init(socket)
 }
+
+//TCP server for arduino
+var tcpServer = net.createServer(function (socket) {
+  console.log('tcp server running on port 1337');
+});
+
+tcpServer.on('connection', function (socket) {
+  console.log('num of connections on port 1337: ' + tcpServer.getConnections);
+  arduinoTcp = socket;
+
+  socket.on('data', function (mydata) {
+    console.log('received on tcp socket:' + mydata);
+
+  });
+});
+
+tcpServer.listen(1337);
 
 var port = process.env.PORT || 3000
 
