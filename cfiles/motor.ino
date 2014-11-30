@@ -91,8 +91,6 @@ void loop()
   available = wifly.available();
   if (available < 0) {
       Serial.println("Disconnected");
-  } else if (available > 0) {
-      Serial.write(wifly.read());
   }
   
   if (Serial.available()) {
@@ -163,4 +161,6 @@ void loop()
    } 
  }
 }
+ 
+
  
