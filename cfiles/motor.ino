@@ -81,7 +81,7 @@ void loop()
     
   if (wifly.isConnected() == false) {
   Serial.println("Connecting");
-  if (wifly.open("192.168.1.34", 1337)) {
+  if (wifly.open(site, 1337)) {
       Serial.println("Connected");
       connectTime = millis();
   } else {
