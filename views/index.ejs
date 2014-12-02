@@ -11,6 +11,21 @@
     <section id="logo"></section>
   </header>
 
+<% if (!login) { %>
+  <div data-role="popup" id="popupLogin" data-overlay-theme="a" data-theme="a" class="ui-corner-all">
+        <form id="popuplogin">
+            <div style="padding:10px 20px;">
+                <h3>Please Login</h3>
+                <label for="un" class="ui-hidden-accessible">Email:</label>
+                <input type="text" name="email" id="email" value="" placeholder="username" data-theme="a">
+                <label for="pw" class="ui-hidden-accessible">Password:</label>
+                <input type="password" name="password" id="password" value="" placeholder="password" data-theme="a">
+                <button type="button" data-theme="b" data-icon="check" data-inline="true" onclick="validLogin()">Sign in</button>
+            </div>
+        </form>
+        <section id="loginerror"></section>
+        </div>
+<% }else{ %>        
   <main>
      <section id="movement">
       <svg viewBox="0 0 160 160">
@@ -72,13 +87,15 @@
           <p><a href="#" class="pure-button pure-button-error" id="end-call">Stop Video Feed</a></p>
         </div>
       </div>
-  </div>
+  </div> 
+ <% } %>
   <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
   <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
   <script src="/js/video.js"></script>
   <script src="/js/socket.io"></script>
   <script src="/js/controller.js"></script>
   <script src="/js/interface.js"></script>
+
 
 </body>
 

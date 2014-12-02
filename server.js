@@ -7,15 +7,80 @@ var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
 var TwitterControl = require('./lib/tweets.js');
 var net = require('net');
+var models = require('./lib/models');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var database = require('./config/dev_database');
+var expressLayouts = require('express-ejs-layouts');
 
 var port = process.env.PORT || 3000
-var httpServer = null;
+var dbUri = process.env.MONGOHQ_URL || database.url;
+var db = mongoose.connect(dbUri);
+
+app.use(function(req, res, next) {
+    if (!models.User) return next('No models.');
+    req.models = models;
+    return next();
+});
+
+app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(cookieParser("this is super secret"));
+app.use(session({secret: "this is also quite secret"}));
+app.use(function (req, res, next) {
+    res.locals.login = req.session.user;
+    next();
+});
 
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+  res.render('index');
 });
+
+app.get('/main', function(req, res) {
+  res.send('index');
+});
+
+app.post('/sessions', function(req, res, next) {
+  if (!req.body.email || !req.body.password) {
+    return res.end('fail');
+  }
+  else {
+    req.models.User.findOne({
+      email: req.body.email}, function(error, user) {
+        if(error) {
+          console.log('got here');
+          return res.end('fail');
+        }
+        else if(user){
+            user.comparePassword(req.body.password, function(error, isMatch) {
+            if(error) return next(error);
+
+            else if(!isMatch) {
+              console.log('shit');
+              return res.end('wrong password');
+            }
+            else {
+              console.log('yayyy')
+              req.session.user = user;
+              return res.end('correct');
+            }
+          });
+        }
+        else
+          res.end('no user');
+      });
+  }
+});
+
+
+
 
 function Server() {
   this.sockets = [];
@@ -104,7 +169,7 @@ Server.prototype.tcpServerListen = function() {
 }
 
 if (!module.parent) {
-  httpServer = new Server().init(port)
+  new Server().init(port)
 }
 
 module.exports = Server;
