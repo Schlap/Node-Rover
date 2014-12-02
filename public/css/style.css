@@ -98,10 +98,11 @@ svg#claw-up {
 svg#claw-down {
   width: 5vw;
   height: 5vw;
+  transform: rotate(180deg);
 }
 
 svg#claw-pinch {
-  width: 10vw;
+  width: 11.5vw;
   height: 5vw;
 }
 
