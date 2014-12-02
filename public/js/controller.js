@@ -48,7 +48,7 @@ Controller.prototype.onKeyPress = function(socket) {
   $(document).on('keydown', function(event) {
     var key = event.which;
     if (_this.keys.indexOf(key) > -1) {
-      event.preventDefault();
+      // event.preventDefault();
       console.log("made it here")
       socket.emit('keypress', key);
     }

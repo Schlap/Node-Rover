@@ -1,6 +1,6 @@
 $(document).ready(function(){
   var controller = new Controller();
-  var socket = io.connect("http://localhost", {'forceNew': true});
+  var socket = io.connect();
   controller.init(socket);
   socket.emit('start');
 });
