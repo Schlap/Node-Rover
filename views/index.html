@@ -13,7 +13,7 @@
   </header>
 
   <main>
-     <section id="movement">
+     <section id="movement" class="flex-item">
       <svg viewBox="0 0 160 160">
         <circle id="Oval" class="control-container" r="80" transform="translate(80, 80)"></circle>
         <g id="move-forward" class="control" transform="translate(70, 20)" stroke="#FFFFFF" stroke-width="2">
@@ -38,25 +38,25 @@
         </g>
       </svg>
     </section> 
-    <section id="claw">
-      <svg id="claw-up" viewBox="0 0 100 100">
+    <section id="claw" class="flex-container">
+      <svg id="claw-up" class="flex-item" viewBox="0 0 100 100">
         <rect id="Rectangle" class="control-container" data-action="claw-up" width="100" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
         <g id="claw-up" class="control" transform="translate(32, 37), scale(2)" stroke-width="3">
           <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
         </g>
         </svg>
-      <svg id="claw-pinch" viewBox="0 0 100 100">
+      <svg id="claw-pinch" class="flex-item" viewBox="0 0 100 100">
       <g id="claw-pinch" viewBox="0 0 100 100">
       <rect id="Rectangle" class="control-container" data-action="claw-up" width="230" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
       <text x="35%" y="70"> Pinch </text>
       </g>
       </svg>
-      <svg id="claw-down" viewBox="0 0 100 100">
+      <svg id="claw-down" class="flex-item" viewBox="0 0 100 100">
         <rect id="Rectangle" class="control-container" data-action="claw-down" width="100" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
         <g id="claw-down" class="control" transform="translate(32, 37), scale(2)" stroke-width="3">
           <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
         </g>
-        </svg>
+      </svg>
     </section>
     <section id="vision">
     </section>

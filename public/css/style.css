@@ -78,38 +78,34 @@ svg {
     Claw Controlls
 ----------------------------*/
 
+/*
 .flex-container {
   display: flex;
+  justify-content: space-around;
 }
 
 .flex-item {
-  
 }
+*/
 
 section#claw {
   overflow: visible;
   position: absolute;
   bottom: 0;
   margin: 0 0 3rem 13rem;
-  display: flex;
-  flex: 1;
 }
 
 svg#claw-up {
   width: 5vw;
   height: 5vw;
-  flex: none;
 }
 
 svg#claw-down {
   width: 5vw;
   height: 5vw;
-  flex: none;
 }
 
 svg#claw-pinch {
-  flex: none;
-  margin-left: 50%;
 }
 
 rect.control-container {
@@ -120,7 +116,7 @@ rect.control-container {
 
 svg#claw-pinch text {
   font-family: Helvetica;
-  font-size: 60px;
+  font-size: 10vw;
   font-weight: 100;
   fill: white;
 }
