@@ -1,5 +1,3 @@
-//360 Spin
-
 #include "Arduino.h"
 
 int pwm_a = 3; //ch1
@@ -30,16 +28,28 @@ void setup()
   
 };
 
-void threeSixty(){
+void right(){
     Serial.println(HIGH);
-    digitalWrite(dir_a,LOW); // turn all motors forward
+    digitalWrite(dir_a,LOW);
     digitalWrite(dir_b,HIGH); 
     digitalWrite(dir_c,HIGH);
     digitalWrite(dir_d,LOW);
-    analogWrite(pwm_a,200); // provide power to all motors
+    analogWrite(pwm_a,200);
     analogWrite(pwm_b,220);
     analogWrite(pwn_c,200);
     analogWrite(pwn_d,220);
+}
+
+void left(){
+      Serial.println(HIGH);
+      digitalWrite(dir_a,HIGH);
+      digitalWrite(dir_b,LOW); 
+      digitalWrite(dir_c,LOW);
+      digitalWrite(dir_d,HIGH);
+      analogWrite(pwm_a,200);
+      analogWrite(pwm_b,200);
+      analogWrite(pwn_c,200);
+      analogWrite(pwn_d,200);
 }
 
 void brake(){
@@ -54,9 +64,27 @@ void brake(){
  byte b = Serial.read();
  Serial.println(b);
    if(b == '3') {
-     threeSixty();
+     right();
      delay(3600);
      brake();
+   }
+  }
+  
+ if(Serial.available()){
+ byte b = Serial.read();
+ Serial.println(b);
+ if(b == 'b'){
+   right();
+   delay(500);
+   left();
+   delay(500);
+   right();
+   delay(500);
+   left();
+   delay(500);
+   right();
+   delay(3600);
+   brake();
    }
   }
  };
