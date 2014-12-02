@@ -53,8 +53,8 @@ main {
 section#movement {
   overflow: visible;
   position: absolute;
-  bottom: 0;
-  margin: 0 0 3rem 1rem;
+  left: 2vw;
+  bottom: 5vw;
   width: 25vw;
   height: 25vw;
 }
@@ -122,3 +122,12 @@ svg#claw-pinch text {
 /*---------------------------
     Vision Controlls
 ----------------------------*/
+
+section#vision {
+  overflow: visible;
+  position: absolute;
+  bottom: 5vw;
+  right: 2vw;
+  width: 20vw;
+  height: 20vw;
+}
