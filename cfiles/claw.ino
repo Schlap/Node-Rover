@@ -3,10 +3,10 @@
 Servo arm;
 Servo claw;
 
-// arm starting position at 90 degrees
 int aPos = 90;
-// claw starting position at 90 degrees
 int cPos = 90;
+
+// pan/tilt
 
 void setup() {
   Serial.begin(9600);
@@ -50,6 +50,21 @@ void loop() {
         claw.write(cPos);               
         delay(5);                       
        };
+    };
+    
+    if(b == '='){
+      while(b != '-'){
+      b = Serial.read();
+      for(cPos; cPos < 160; cPos++){
+        claw.write(cPos);
+        delay(5);
+      };
+      
+      for(cPos; cPos > 0; cPos--){
+        claw.write(cPos);
+        delay(5);  
+      };
+     };
     };
   };
 };
