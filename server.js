@@ -5,16 +5,11 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
+var TwitterControl = require('./lib/tweets.js');
 var net = require('net');
-var PeerServer = require('peer').ExpressPeerServer;
 
 var port = process.env.PORT || 3000
 var arduinoTcp = null;
-var options = {
-  debug: true
-}
-
-app.use('/peerjs', PeerServer(server, options))
 
 app.use(express.static(__dirname + '/public'));
 
@@ -26,11 +21,13 @@ function Server() {
   this.sockets = [];
   this.app = app; 
   this.controller = null
+  this.twitterController = null;
   this.server = server
  }
 
 Server.prototype.init = function(port) {
   this.setEventHandlers();
+  this.twitterController = new TwitterControl(arduinoTcp).init();
   this._server = this.server.listen(port, function() {
     console.log("listening on " + port);
   });   

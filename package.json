@@ -24,6 +24,7 @@
     "mocha": "^2.0.1",
     "socket.io": "^1.2.1",
     "socket.io-client": "^1.2.1",
+    "twit": "^1.1.18",
     "zombie": "^2.2.1"
   }
 }
