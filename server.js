@@ -1,12 +1,15 @@
+var util = require('util');
 var express = require('express');
 var app = express();
 var http = require('http');
-var five = require('johnny-five');
 var server = http.createServer(app);
 var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
+var TwitterControl = require('./lib/tweets.js');
+var net = require('net');
 
-var arduinoTcp = null;
+var port = process.env.PORT || 3000
+var httpServer = null;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -15,29 +18,29 @@ app.get('/', function(req, res) {
 });
 
 function Server() {
+  this.sockets = [];
   this.app = app; 
-  this.board = new five.Board();
-  this.controller = new Controller(this.board); 
+  this.controller = null
+  this.twitterControl = null;
   this.server = server
-  this.io = io
+  this.arduinoTcp = null;
+  this.tcpServer = null;
  }
 
-Server.prototype.init = function() {
-  this.setEventHandlers(); 
-};
-
-Server.prototype.listen = function(port) {
-  this.init();
+Server.prototype.init = function(port, tcpServer) {
+  this.setEventHandlers();
   this._server = this.server.listen(port, function() {
     console.log("listening on " + port);
   });
+  this.tcpServerSetup();   
 };
 
 Server.prototype.run = function(port) {
   var _this = this;
   before(function(done) {
     _this.listen(port);
-    setTimeout(done, 8000)
+
+    setTimeout(done(), 4000);
   })
   
   after(function(done) {
@@ -52,39 +55,59 @@ Server.prototype.destroy = function(cback) {
 
 
 Server.prototype.setEventHandlers = function() {
-  _this = this;
-  this.io.on('connection', function(socket) {
+  var _this = this;
+  io.on('connection', function(socket) {
     return _this.onSocketConnection(socket, _this);
   });
 };
 
 Server.prototype.onSocketConnection = function(socket, _this) {
-  console.log('connected ' + socket.id)
-  _this.controller.init(socket)
+  util.log('Person has connected ' + socket.id)
+  socket.on('start', function() { return _this.onNewPerson(this, _this)});  
+  socket.on("disconnect", function() {return _this.onClientDisconnect(this, _this)});
+};
+
+Server.prototype.onNewPerson = function(socket, _this) {
+  if (_this.sockets.length === 0) _this.controller = new Controller(this.arduinoTcp);
+  _this.addPerson(socket, _this);
+};
+
+Server.prototype.addPerson = function(socket, _this) {
+  _this.sockets.push(socket);
+  _this.controller.addNewPerson(socket);
+};
+
+Server.prototype.onClientDisconnect = function(socket, _this) {
+  util.log("Person has disconnected: " + socket.id);
+  _this.sockets.splice(_this.sockets.indexOf(socket.id), 1);
+};
+
+Server.prototype.tcpServerSetup = function() {
+  this.tcpServer = net.createServer(function (socket) {
+    console.log('tcp server running on port 1337');
+  });
+  this.tcpServerListen();
 }
 
-//TCP server for arduino
-var tcpServer = net.createServer(function (socket) {
-  console.log('tcp server running on port 1337');
-});
-
-tcpServer.on('connection', function (socket) {
-  console.log('num of connections on port 1337: ' + tcpServer.getConnections);
-  arduinoTcp = socket;
+Server.prototype.tcpServerListen = function() {
+  _this = this
+  this.tcpServer.on('connection', function (socket) {
+    console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
+    _this.arduinoTcp = socket;
+    _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
 
   socket.on('data', function (mydata) {
     console.log('received on tcp socket:' + mydata);
-
   });
 });
+  this.tcpServer.listen(1337);
+}
 
-tcpServer.listen(1337);
-
-var port = process.env.PORT || 3000
+if (!module.parent) {
+  httpServer = new Server().init(port)
+}
 
 module.exports = Server;
 
-if (!module.parent) {
-    new Server().listen(port)
-}
+
 

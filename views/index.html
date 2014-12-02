@@ -1,56 +1,86 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
+
 <head>
   <title>Node Rover</title>
+  <link href="/css/reset.css" rel="stylesheet" type="text/css" media="all">
+  <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
 </head>
-  <body>
-    <h1>Hello you</h1>
-    <br><button id='right'>Right</button></br>
-    <br><button id='left'>Left</button></br>
-    <br><button id='forward'>Forward</button></br>
-    <br><button id='reverse'>Reverse</button></br>
-    <br><button id='brake'>Brake!</button></br>
-    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
-    <script src="js/socket.io"></script>
-      <script>
-      $(document).ready(function(){
-        var socket = io();
-        onRight(socket);
-        onLeft(socket);
-        onForward(socket);
-        onReverse(socket);
-        onBrake(socket);
-      });
 
-      function onRight(socket){
-        $('#right').on('click', function(){
-          socket.emit('right');
-        });
-      }
+<body>
+  <header>
+    <section id="logo"></section>
+  </header>
 
-       function onLeft(socket){
-        $('#left').on('click', function(){
-          socket.emit('left');
-        });
-      }
+  <main>
+     <section id="movement">
+      <svg viewBox="0 0 160 160">
+        <circle id="Oval" class="control-container" r="80" transform="translate(80, 80)"></circle>
+        <g id="move-forward" class="control" transform="translate(70, 20)" stroke="#FFFFFF" stroke-width="2">
+          <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
+          <path d="M4,16 L17,16" id="Shape"></path>
+          <circle class="uns-control" data-action="move-forward" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+        <g id="move-backward" class="control" transform="translate(69, 124)" stroke="#FFFFFF" stroke-width="2">
+          <path d="M20.1,6 L10.1,16 L0.1,6" id="Shape"></path>
+          <path d="M16,0 L3,0" id="Shape"></path>
+          <circle class="uns-control" data-action="move-backward" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+        <g id="move-right" class="control" transform="translate(120, 72)">
+          <path d="M20.6,12.2 C18.5,13.6 15.1,14.5 11.2,14.5 C4.8,14.5 -0.4,12 -0.4,9 C-0.4,6 4.8,3.5 11.2,3.5 C14.9,3.5 18.2,4.3 20.3,5.6 L13,-0.4" id="Shape" stroke="#FFFFFF" stroke-width="2"></path>
+          <ellipse id="Oval" fill="#FFFFFF" cx="10.8" cy="8.7" rx="1.8" ry="0.7"></ellipse>
+          <circle class="uns-control" data-action="move-right" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+        <g id="move-left" class="control" transform="translate(20, 71)">
+          <path d="M0.1,12.2 C2.1,13.6 5.4,14.5 9.1,14.5 C15.2,14.5 20.1,12 20.1,9 C20.1,6 15.2,3.5 9.1,3.5 C5.6,3.5 2.4,4.3 0.4,5.6 L7.4,-0.4" id="Shape" stroke="#FFFFFF" stroke-width="2"></path>
+          <ellipse id="Oval" fill="#FFFFFF" cx="9.7" cy="8.7" rx="1.7" ry="0.7"></ellipse>
+          <circle class="uns-control" data-action="move-left" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+      </svg>
+    </section> 
+  </main>
 
-      function onForward(socket){
-        $('#forward').on('click', function(){
-          socket.emit('forward');
-        });
-      }
+  <div class="pure-g">
 
-      function onReverse(socket){
-        $('#reverse').on('click', function(){
-          socket.emit('reverse');
-        });
-      }
+      <!-- Video area -->
+      <div class="pure-u-2-3" id="video-container">
+        <video id="their-video" muted="true" autoplay></video>
+      </div>
 
-      function onBrake(socket){
-        $('#brake').on('click', function(){
-          socket.emit('brake');
-        });
-      }
+      <!-- Steps -->
+      <div class="pure-u-1-3">
 
-      </script>
-  </body>
+        <!-- Get local audio/video stream -->
+          <div id="step1-error">
+            <p>Failed to access the webcam and microphone. Click allow when asked for permission by the browser.</p>
+            <a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
+          </div>
+        </div>
+
+        <!-- Make calls to others -->
+        <div id="step2">
+          <p>Your id: <span id="my-id">...</span></p>
+          <p>Enter Smart Phone Camera ID to connect</p></br>
+          <div class="pure-form">
+            <input type="text" placeholder="Connect to phone..." id="callto-id">
+            <a href="#" class="pure-button pure-button-success" id="make-call">Connect</a>
+          </div>
+        </div>
+
+        <!-- Call in progress -->
+        <div id="step3">
+          
+          <p><a href="#" class="pure-button pure-button-error" id="end-call">Stop Video Feed</a></p>
+        </div>
+      </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+  <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+  <script src="/js/video.js"></script>
+  <script src="/js/socket.io"></script>
+  <script src="/js/controller.js"></script>
+  <script src="/js/interface.js"></script>
+
+</body>
+
 </html>
+
