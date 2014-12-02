@@ -9,7 +9,7 @@ var TwitterControl = require('./lib/tweets.js');
 var net = require('net');
 
 var port = process.env.PORT || 3000
-var arduinoTcp = null;
+var httpServer = null;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -21,16 +21,18 @@ function Server() {
   this.sockets = [];
   this.app = app; 
   this.controller = null
-  this.twitterController = null;
+  this.twitterControl = null;
   this.server = server
+  this.arduinoTcp = null;
+  this.tcpServer = null;
  }
 
-Server.prototype.init = function(port) {
+Server.prototype.init = function(port, tcpServer) {
   this.setEventHandlers();
-  this.twitterController = new TwitterControl(arduinoTcp).init();
   this._server = this.server.listen(port, function() {
     console.log("listening on " + port);
-  });   
+  });
+  this.tcpServerSetup();   
 };
 
 Server.prototype.run = function(port) {
@@ -66,7 +68,7 @@ Server.prototype.onSocketConnection = function(socket, _this) {
 };
 
 Server.prototype.onNewPerson = function(socket, _this) {
-  if (_this.sockets.length === 0) _this.controller = new Controller(arduinoTcp);
+  if (_this.sockets.length === 0) _this.controller = new Controller(this.arduinoTcp);
   _this.addPerson(socket, _this);
 };
 
@@ -80,27 +82,30 @@ Server.prototype.onClientDisconnect = function(socket, _this) {
   _this.sockets.splice(_this.sockets.indexOf(socket.id), 1);
 };
 
-
-if (!module.parent) {
-  new Server().init(port)
+Server.prototype.tcpServerSetup = function() {
+  this.tcpServer = net.createServer(function (socket) {
+    console.log('tcp server running on port 1337');
+  });
+  this.tcpServerListen();
 }
 
-// TCP server for arduino
-var tcpServer = net.createServer(function (socket) {
-  console.log('tcp server running on port 1337');
-});
-
-tcpServer.on('connection', function (socket) {
-  console.log('num of connections on port 1337: ' + tcpServer.getConnections);
-  arduinoTcp = socket;
+Server.prototype.tcpServerListen = function() {
+  _this = this
+  this.tcpServer.on('connection', function (socket) {
+    console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
+    _this.arduinoTcp = socket;
+    _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
 
   socket.on('data', function (mydata) {
     console.log('received on tcp socket:' + mydata);
-
   });
 });
+  this.tcpServer.listen(1337);
+}
 
-tcpServer.listen(1337);
+if (!module.parent) {
+  httpServer = new Server().init(port)
+}
 
 module.exports = Server;
 

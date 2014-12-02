@@ -111,18 +111,18 @@ svg {
   -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 
-#my-video {
+/*#my-video {
   margin-top: 15px;
   width: 280px;
   height: auto;
   background-color: #eee;
-}
+}*/
 
 #their-video {
   width: 40%;
   height: 40%;
   max-height: 200px;
-  background-color: #eee;
+  background-color: rgb(125,174,23);
 }
 
 #video-container {
