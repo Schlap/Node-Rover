@@ -2,14 +2,21 @@
 
 <head>
   <title>Node Rover</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <link href="/css/reset.css" rel="stylesheet" type="text/css" media="all">
   <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
+  <script>
+    window.addEventListener("load", function() {
+      setTimeout(function() {
+        window.scrollTo(0, 1);
+      }, 0);
+    });
+ }</script>
 </head>
 
 <body>
   <header>
     <section id="logo"></section>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   </header>
 
 <% if (!login) { %>
@@ -29,7 +36,9 @@
 <% }else{ %>
 
   <main>
-     <section id="movement">
+
+     <section id="movement" class="flex-item">
+
       <svg viewBox="0 0 160 160">
         <circle id="Oval" class="control-container" r="80" transform="translate(80, 80)"></circle>
         <g id="move-forward" class="control" transform="translate(70, 20)" stroke="#FFFFFF" stroke-width="2">
@@ -37,28 +46,81 @@
           <path d="M4,16 L17,16" id="Shape"></path>
           <circle class="uns-control" data-action="move-forward" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
         </g>
+
         <g id="move-backward" class="control" transform="translate(69, 124)" stroke="#FFFFFF" stroke-width="2">
           <path d="M20.1,6 L10.1,16 L0.1,6" id="Shape"></path>
           <path d="M16,0 L3,0" id="Shape"></path>
           <circle class="uns-control" data-action="move-backward" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
         </g>
+
         <g id="move-right" class="control" transform="translate(120, 72)">
           <path d="M20.6,12.2 C18.5,13.6 15.1,14.5 11.2,14.5 C4.8,14.5 -0.4,12 -0.4,9 C-0.4,6 4.8,3.5 11.2,3.5 C14.9,3.5 18.2,4.3 20.3,5.6 L13,-0.4" id="Shape" stroke="#FFFFFF" stroke-width="2"></path>
           <ellipse id="Oval" fill="#FFFFFF" cx="10.8" cy="8.7" rx="1.8" ry="0.7"></ellipse>
           <circle class="uns-control" data-action="move-right" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
         </g>
+
         <g id="move-left" class="control" transform="translate(20, 71)">
           <path d="M0.1,12.2 C2.1,13.6 5.4,14.5 9.1,14.5 C15.2,14.5 20.1,12 20.1,9 C20.1,6 15.2,3.5 9.1,3.5 C5.6,3.5 2.4,4.3 0.4,5.6 L7.4,-0.4" id="Shape" stroke="#FFFFFF" stroke-width="2"></path>
           <ellipse id="Oval" fill="#FFFFFF" cx="9.7" cy="8.7" rx="1.7" ry="0.7"></ellipse>
           <circle class="uns-control" data-action="move-left" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
         </g>
       </svg>
+
     </section> 
-    <section id="claw">
-      
+
+    <section id="claw" class="flex-container">
+
+      <svg id="claw-up" class="flex-item" viewBox="0 0 100 100">
+        <rect id="Rectangle" class="control-container" data-action="claw-up" width="100" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
+        <g id="claw-up" class="control" transform="translate(32, 37), scale(2)" stroke-width="3">
+          <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
+        </g>
+        </svg>
+
+      <svg id="claw-pinch" class="flex-item" viewBox="0 0 230 100">
+      <g id="claw-pinch">
+        <rect id="Rectangle" class="control-container" data-action="claw-up" width="230" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
+        <text style="text-anchor: middle; dominant-baseline: middle;" y="50" x="115" font-size="80"> Pinch </text>
+      </g>
+      </svg>
+
+      <svg id="claw-down" class="flex-item" viewBox="0 0 100 100">
+        <rect id="Rectangle" class="control-container" data-action="claw-down" width="100" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
+        <g id="claw-down" class="control" transform="translate(32, 37), scale(2)" stroke-width="3">
+          <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
+        </g>
+      </svg>
+
     </section>
+
     <section id="vision">
+
+      <svg viewBox="0 0 160 160">
+        <circle id="Oval" class="control-container" r="80" transform="translate(80, 80)" stroke-width="2.5"></circle>
+        <g id="look-up" class="control" transform="translate(70, 20)" stroke="#FFFFFF" stroke-width="2.5">
+          <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6"></path>
+          <circle class="uns-control" data-action="look-up" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+
+        <g id="look-down" class="control" transform="translate(69, 124)" stroke="#FFFFFF" stroke-width="2.5">
+          <path d="M20.1,6 L10.1,16 L0.1,6"></path>
+          <circle class="uns-control" data-action="look-down" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+
+        <g id="look-right" class="control" transform="translate(35, 23)" stroke-width="2.5">
+          <path d="M98.07,62.72 L105.07,55.72 L98.07,48.72"></path>
+          <circle class="uns-control" data-action="look-right" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+
+        <g id="look-left" class="control" transform="translate(15, 23)" stroke-width="2.5">
+          <path d="M14.07,62.72 L7.07,55.72 L14.07,48.72"></path>
+          <circle class="uns-control" data-action="look-left" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+        </g>
+
+      </svg>
+
     </section>
+
   </main>
 
   <div class="pure-g">

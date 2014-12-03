@@ -40,6 +40,7 @@ section#logo {
 ----------------------------*/
 
 main {
+  width: 100%;
   height: 100%;
   background-color: rgb(125,174,23);
   color: rgb(250,250,250);
@@ -51,27 +52,21 @@ main {
 
 section#movement {
   overflow: visible;
-  position: fixed;
-  bottom: 0px;
-  margin: 0 0 3rem 1rem;
+  position: absolute;
+  left: 2vw;
+  bottom: 5vw;
   width: 25vw;
   height: 25vw;
-}
-
-svg.control-container {
-  stroke: white;
-  stroke-width: 2px;
-  fill: transparent;
 }
 
 svg {
   width: 100%;
   height: 100%;
   stroke: white;
-  stroke-width: 2px;
   fill: transparent;
   overflow: visible;
-}
+  stroke-width: 2;
+  }
 
 .uns-control:hover {
   cursor: pointer;
@@ -79,9 +74,56 @@ svg {
 }
 
 /*---------------------------
+    Claw Controlls
+----------------------------*/
+
+section#claw {
+  overflow: visible;
+  position: absolute;
+  bottom: 10vh;
+  left: 50%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-left: -15vw;
+  width: 30vw;
+}
+
+svg#claw-up {
+  width: 5vw;
+  height: 5vw;
+}
+
+svg#claw-down {
+  width: 5vw;
+  height: 5vw;
+  transform: rotate(180deg);
+}
+
+svg#claw-pinch {
+  width: 11.5vw;
+  height: 5vw;
+}
+
+rect.control-container {
+  stroke: white;
+  stroke-width: 5;
+  fill: transparent;
+}
+
+svg#claw-pinch text {
+  font-family: Helvetica;
+  font-size: 10vw;
+  font-weight: 100;
+  fill: white;
+}
+
+/*---------------------------
     Vision Controlls
 ----------------------------*/
 
+<<<<<<< HEAD
 .pure-button-success,
 .pure-button-error,
 .pure-button-warning,
@@ -136,4 +178,13 @@ svg {
 }
 #my-id {
   font-weight: bold;
+=======
+section#vision {
+  overflow: visible;
+  position: absolute;
+  bottom: 5vw;
+  right: 2vw;
+  width: 20vw;
+  height: 20vw;
+>>>>>>> claw-gui
 }
