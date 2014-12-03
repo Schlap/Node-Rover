@@ -60,11 +60,11 @@ Server.prototype.init = function(port, tcpServer) {
   this.tcpServerSetup();   
 };
 
-Server.prototype.run = function(port) {
+Server.prototype.testRun = function(port, client) {
   var _this = this;
   before(function(done) {
-    _this.listen(port);
-
+    _this.setEventHandlers();
+    _this._server = _this.server.listen(port)
     setTimeout(done(), 4000);
   })
   
@@ -73,11 +73,9 @@ Server.prototype.run = function(port) {
   });
 };
 
-
 Server.prototype.destroy = function(cback) {
   this._server.close(cback || function() {})
 }
-
 
 Server.prototype.setEventHandlers = function() {
   var _this = this;

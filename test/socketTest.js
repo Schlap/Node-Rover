@@ -15,21 +15,22 @@ describe('Socket transmission', function (){
   var options = {
     'transports' : ['websocket']
   };
+  var client = net.connect({ port: 1337 })
 
   _this = this;
-  this.app = new Server
-  this._server = this.app.run(5000)
+  this.app = new Server;
+  this._server = this.app.testRun(5000, client);
 
 
   it('should emit right', function(done){
-    var client = net.connect({ port: 1337 })
     var socket = io.connect(url, options);
     socket.once('connect', function(){
        socket.once('right', function(msg){
         expect(msg).to.eql('turning right');
         done();
     });
-    socket.emit('right')
+    socket.emit('start');
+    socket.emit('right');
     });
    
   });
@@ -40,7 +41,7 @@ describe('Socket transmission', function (){
           expect(msg).to.eql('turning left');
           done();
       });
-      socket.emit('left')
+      socket.emit('left');
     });
 
   it('should emit forward', function(done){
@@ -49,7 +50,7 @@ describe('Socket transmission', function (){
         expect(msg).to.eql('moving forward');
         done();
     });
-    socket.emit('forward')
+    socket.emit('forward');
   });
 
   it('should emit reverse', function(done){
@@ -58,7 +59,7 @@ describe('Socket transmission', function (){
         expect(msg).to.eql('reversing');
         done();
     });
-    socket.emit('reverse')
+    socket.emit('reverse');
   });
 
   it('should emit brake', function(done){
@@ -68,6 +69,6 @@ describe('Socket transmission', function (){
         socket.disconnect();
         done();
     });
-    socket.emit('brake')
+    socket.emit('brake');
   });
 });

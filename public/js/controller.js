@@ -73,10 +73,8 @@ Controller.prototype.gyroControl = function(socket) {
   gyro.startTracking(function(o) {
     x = o.x * 5;
     z = o.z * 5;
-    socket.emit('accel', o);
-    if(status == 0) { 
-      status = 3;
-      socket.emit('brake')
+    if (z > -14 && z < 14 && x > -14 && x < 14) {
+      socket.emit('brake');
     }
     else if(x > 14) { 
       status = 2;
@@ -93,8 +91,7 @@ Controller.prototype.gyroControl = function(socket) {
     else if (z < 14) {
       status = 5;
       socket.emit('reverse');
-    }    
-   
+    }       
     else {   
         status = 3;
         socket.emit('brake')
