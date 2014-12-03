@@ -1,5 +1,8 @@
 #include "Arduino.h"
+#include <Servo.h>
 #include <WiFlyHQ.h>
+
+
 
 WiFly wifly;
 byte server[] = { 127, 0, 0, 1};
@@ -8,6 +11,14 @@ const char mySSID[] = "ZyXEL1374utj";
 const char myPassword[] = "yaahctjwae";
 
 const char site[] = "192.168.1.34";
+
+//Servos
+
+Servo arm;
+Servo claw;
+
+int aPos = 90;
+int cPos = 90;
 
 //Motors
 
@@ -33,6 +44,9 @@ void setup()
   Serial.begin(57600);
   
   delay(1000);
+
+  claw.attach(10);
+  arm.attach(11);
   
   pinMode(pwm_a,OUTPUT); 
   pinMode(pwm_b,OUTPUT); 
@@ -158,6 +172,37 @@ void loop()
       analogWrite(pwn_c,200);
       analogWrite(pwn_d,200);
     }
+
+    if(b == 'o'){
+      for(aPos; aPos < 180; aPos++) { 
+        arm.write(aPos);               
+        delay(15);                       
+       }; 
+     };
+       
+    if(b == 'p'){
+      Serial.println(aPos);
+      for(aPos; aPos > 0; aPos--) { 
+        arm.write(aPos);               
+        delay(15);                       
+       }; 
+    };
+    
+    if(b == '0'){
+      Serial.println(cPos);
+      for(cPos; cPos < 160; cPos++) { 
+        claw.write(cPos);               
+        delay(5);                       
+       };
+    };
+    
+    if(b == '9'){
+      Serial.println(cPos);
+      for(cPos; cPos > 0; cPos--) { 
+        claw.write(cPos);               
+        delay(5);                       
+       };
+    };
    } 
  }
 }
