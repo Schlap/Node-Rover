@@ -66,25 +66,32 @@
         </g>
       </svg>
 
-    </section> 
+    </section>
 
-    <section id="claw" class="flex-container">
+    <section id="claw">
 
-      <svg id="claw-up" class="flex-item" viewBox="0 0 100 100">
+      <svg id="claw-up" viewBox="0 0 100 100">
         <rect id="Rectangle" class="control-container" data-action="claw-up" width="100" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
         <g id="claw-up" class="control" transform="translate(32, 37), scale(2)" stroke-width="3">
           <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
         </g>
-        </svg>
+      </svg>
 
-      <svg id="claw-pinch" class="flex-item" viewBox="0 0 230 100">
+      <svg id="claw-release" viewBox="0 0 230 100">
+        <g id="claw-release">
+          <rect id="Rectangle" class="control-container" data-action="claw-release" width="230" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
+          <text style="text-anchor: middle; dominant-baseline: middle;" y="50" x="115" font-size="40"> Release </text>
+        </g>
+      </svg>
+
+      <svg id="claw-pinch" viewBox="0 0 230 100">
       <g id="claw-pinch">
         <rect id="Rectangle" class="control-container" data-action="claw-up" width="230" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
-        <text style="text-anchor: middle; dominant-baseline: middle;" y="50" x="115"> Pinch </text>
+        <text style="text-anchor: middle; dominant-baseline: middle;" y="50" x="115" font-size="40"> Pinch </text>
       </g>
       </svg>
 
-      <svg id="claw-down" class="flex-item" viewBox="0 0 100 100">
+      <svg id="claw-down" viewBox="0 0 100 100">
         <rect id="Rectangle" class="control-container" data-action="claw-down" width="100" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
         <g id="claw-down" class="control" transform="translate(32, 37), scale(2)" stroke-width="3">
           <path d="M0.1,9.6 L10.1,-0.4 L20.1,9.6" id="Shape"></path>
@@ -109,12 +116,12 @@
 
         <g id="look-right" class="control" transform="translate(35, 23)" stroke-width="2.5">
           <path d="M98.07,62.72 L105.07,55.72 L98.07,48.72"></path>
-          <circle class="uns-control" data-action="look-right" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+          <circle class="uns-control" data-action="look-right" r="30" stroke-width="0" transform="translate(10, 55)" ></circle>
         </g>
 
         <g id="look-left" class="control" transform="translate(15, 23)" stroke-width="2.5">
           <path d="M14.07,62.72 L7.07,55.72 L14.07,48.72"></path>
-          <circle class="uns-control" data-action="look-left" r="30" stroke-width="0" transform="translate(10, 10)" ></circle>
+          <circle class="uns-control" data-action="look-left" r="30" stroke-width="0" transform="translate(10, 55)" ></circle>
         </g>
 
       </svg>
@@ -152,11 +159,11 @@
 
         <!-- Call in progress -->
         <div id="step3">
-          
+
           <p><a href="#" class="pure-button pure-button-error" id="end-call">Stop Video Feed</a></p>
         </div>
       </div>
-  </div> 
+  </div>
  <% } %>
 
   <script src="https://code.jquery.com/jquery-2.1.1.js"></script>

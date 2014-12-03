@@ -86,8 +86,8 @@ section#claw {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-left: -15vw;
-  width: 30vw;
+  margin-left: -20vw;
+  width: 40vw;
 }
 
 svg#claw-up {
@@ -101,6 +101,11 @@ svg#claw-down {
   transform: rotate(180deg);
 }
 
+svg#claw-release {
+  width: 11.5vw;
+  height: 5vw;
+}
+
 svg#claw-pinch {
   width: 11.5vw;
   height: 5vw;
@@ -112,9 +117,8 @@ rect.control-container {
   fill: transparent;
 }
 
-svg#claw-pinch text {
+svg text {
   font-family: Helvetica;
-  font-size: 7vw;
   font-weight: 100;
   fill: white;
 }
@@ -155,16 +159,4 @@ section#vision {
 }
 #my-id {
   font-weight: bold;
-
-
-/*---------------------------
-    Media Queries
-----------------------------*/
-
-@media only screen and (min-width: 60em) {
-
-  svg#claw-pinch text {
-    font-size: 4vw;
-  }
-
 }
