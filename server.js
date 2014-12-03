@@ -5,7 +5,7 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
-// var TwitterControl = require('./lib/tweets.js');
+var TwitterControl = require('./lib/tweets.js');
 var net = require('net');
 var models = require('./lib/models');
 var bodyParser = require('body-parser');
@@ -116,15 +116,17 @@ Server.prototype.tcpServerSetup = function() {
 Server.prototype.tcpServerListen = function() {
   _this = this
   this.tcpServer.on('connection', function (socket) {
-    console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
-    _this.arduinoTcp = socket;
-  //  _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
-    if(_this.controller) _this.controller.arduino = _this.arduinoTcp
+    if (_this.tcpServer) {
+      console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
+      _this.arduinoTcp = socket;
+     _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
+      if(_this.controller) _this.controller.arduino = _this.arduinoTcp
 
-  socket.on('data', function (mydata) {
-    console.log('received on tcp socket:' + mydata);
+    socket.on('data', function (mydata) {
+      console.log('received on tcp socket:' + mydata);
+    });
+    }
   });
-});
   this.tcpServer.listen(1337);
 }
 
