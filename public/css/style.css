@@ -114,7 +114,7 @@ rect.control-container {
 
 svg#claw-pinch text {
   font-family: Helvetica;
-  font-size: 10vw;
+  font-size: 7vw;
   font-weight: 100;
   fill: white;
 }
@@ -156,3 +156,15 @@ section#vision {
 #my-id {
   font-weight: bold;
 
+
+/*---------------------------
+    Media Queries
+----------------------------*/
+
+@media only screen and (min-width: 60em) {
+
+  svg#claw-pinch text {
+    font-size: 4vw;
+  }
+
+}
