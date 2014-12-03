@@ -88,7 +88,8 @@ Server.prototype.setEventHandlers = function() {
 
 Server.prototype.onSocketConnection = function(socket, _this) {
   util.log('Person has connected ' + socket.id)
-  socket.on('start', function() { return _this.onNewPerson(this, _this)});  
+  socket.on('start', function() { return _this.onNewPerson(this, _this)});
+  socket.on('accel', function(data) {console.log(data)}) 
   socket.on("disconnect", function() {return _this.onClientDisconnect(this, _this)});
 };
 
@@ -120,6 +121,7 @@ Server.prototype.tcpServerListen = function() {
     console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
     _this.arduinoTcp = socket;
     _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
+    if(_this.controller) _this.controller.arduino = _this.arduinoTcp
 
   socket.on('data', function (mydata) {
     console.log('received on tcp socket:' + mydata);
