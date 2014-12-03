@@ -7,15 +7,40 @@ var io = require('socket.io')(server)
 var Controller = require('./lib/controller');
 var TwitterControl = require('./lib/tweets.js');
 var net = require('net');
+var models = require('./lib/models');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var database = require('./config/dev_database');
+var expressLayouts = require('express-ejs-layouts');
 
 var port = process.env.PORT || 3000
-var httpServer = null;
+var dbUri = process.env.MONGOHQ_URL || database.url;
+var db = mongoose.connect(dbUri);
+
+app.use(function(req, res, next) {
+    if (!models.User) return next('No models.');
+    req.models = models;
+    return next();
+});
+
+app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
+app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(cookieParser("this is super secret"));
+app.use(session({secret: "this is also quite secret"}));
+app.use(function (req, res, next) {
+    res.locals.login = req.session.user;
+    next();
 });
+
+require('./lib/routes.js')(app);
+
 
 function Server() {
   this.sockets = [];
@@ -63,7 +88,8 @@ Server.prototype.setEventHandlers = function() {
 
 Server.prototype.onSocketConnection = function(socket, _this) {
   util.log('Person has connected ' + socket.id)
-  socket.on('start', function() { return _this.onNewPerson(this, _this)});  
+  socket.on('start', function() { return _this.onNewPerson(this, _this)});
+  socket.on('accel', function(data) {console.log(data)}) 
   socket.on("disconnect", function() {return _this.onClientDisconnect(this, _this)});
 };
 
@@ -95,6 +121,7 @@ Server.prototype.tcpServerListen = function() {
     console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
     _this.arduinoTcp = socket;
     _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
+    if(_this.controller) _this.controller.arduino = _this.arduinoTcp
 
   socket.on('data', function (mydata) {
     console.log('received on tcp socket:' + mydata);
@@ -104,10 +131,8 @@ Server.prototype.tcpServerListen = function() {
 }
 
 if (!module.parent) {
-  httpServer = new Server().init(port)
+  new Server().init(port)
 }
 
 module.exports = Server;
-
-
 
