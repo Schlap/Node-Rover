@@ -17,10 +17,7 @@ describe('Socket transmission', function (){
   };
   var client = net.connect({ port: 1337 })
 
-  _this = this;
-  this.app = new Server;
-  this._server = this.app.testRun(5000, client);
-
+  this._server = new Server().testRun(5000, client);
 
   it('should emit right', function(done){
     var socket = io.connect(url, options);
