@@ -52,7 +52,7 @@ function Server() {
   this.tcpServer = null;
  }
 
-Server.prototype.init = function(port, tcpServer) {
+Server.prototype.init = function(port) {
   this.setEventHandlers();
   this._server = this.server.listen(port, function() {
     console.log("listening on " + port);
@@ -64,7 +64,9 @@ Server.prototype.testRun = function(port, client) {
   var _this = this;
   before(function(done) {
     _this.setEventHandlers();
-    _this._server = _this.server.listen(port)
+  _this._server = _this.server.listen(port, function() {
+    console.log("listening on " + port);
+  });
     setTimeout(done(), 4000);
   })
   
