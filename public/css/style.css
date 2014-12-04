@@ -160,3 +160,65 @@ section#vision {
 #my-id {
   font-weight: bold;
 }
+
+/*---------------------------
+    Login Form
+----------------------------*/
+
+#popuplogin {
+  margin: 25vh 40%;
+  width: 25vw;
+  line-height: 10vh;
+  letter-spacing: 1.2px;
+}
+
+input {
+  height: 5vh;
+  border: 2px solid white;
+  padding-left: 5px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  margin-right: 1vw;
+}
+
+input:hover {
+  cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+  color: white;
+  letter-spacing: 1.2px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: white;
+  letter-spacing: 1.2px;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: white;
+  letter-spacing: 1.2px;
+}
+
+:-ms-input-placeholder {
+  color: white;
+  letter-spacing: 1.2px;
+}
+
+button {
+  height: 6.5vh;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  background-color: transparent;
+  letter-spacing: 1.2px;
+}
+
+@media screen and (min-width: 1000px) {
+
+  #popuplogin {
+    width: 15vw;
+  }
+
+}
