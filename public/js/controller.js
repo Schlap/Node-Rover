@@ -9,7 +9,7 @@ Controller.prototype.init = function(socket) {
   // this.listenOnVision(socket);
   this.onKeyPress(socket);
   this.onKeyUp(socket);
-  this.gyroControl(socket);
+  // this.gyroControl(socket);
 };
 
 Controller.prototype.listenOnMotors = function(socket) {

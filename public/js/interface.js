@@ -23,7 +23,6 @@ function validLogin(){
 }
 
 function init() {
-  console.log('shit')
   var controller = new Controller();
   var socket = io.connect();
   controller.init(socket);
