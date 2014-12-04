@@ -2,7 +2,6 @@ var mocha = require('mocha');
 var chai = require('chai');
 var expect = chai.expect;
 var assert = chai.assert
-var Browser = require('zombie');
 var Server = require('../server');
 var socket = require('socket.io');
 var io = require('socket.io-client');
