@@ -1,4 +1,4 @@
-function validLogin(){      
+function validLogin(){
   var email=$('#email').val();
   var password=$('#password').val();
   $.ajax({
@@ -12,7 +12,7 @@ function validLogin(){
           $("#popupLogin").fadeOut('slow', function() {
             $(document.body).load(page).fadeIn('slow');
           });
-          init();         
+          init();
         }else{
           console.log('fail');
             $("#loginerror").html('<p>' + result + '<p>');
