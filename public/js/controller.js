@@ -9,8 +9,7 @@ Controller.prototype.init = function(socket) {
   // this.listenOnVision(socket);
   this.onKeyPress(socket);
   this.onKeyUp(socket);
-
-  // this.gyroControl(socket);
+  this.gyroControl(socket);
 };
 
 Controller.prototype.listenOnMotors = function(socket) {
@@ -138,33 +137,34 @@ Controller.prototype.onKeyUp = function(socket) {
 Controller.prototype.gyroControl = function(socket) {
   var status = 0;
   var x;
-  var y;
+  var z;
   gyro.startTracking(function(o) {
     x = o.x * 5;
-    z = o.z * 5;
-    if (z > -14 && z < 14 && x > -14 && x < 14) {
-      socket.emit('brake');
+    z = o.z * 2;
+    socket.emit('accel', o);
+    
+    if (z > -15 && z < 15) {
+       socket.emit('claw-stop');
+    }     
+    // else if(x > 14) { 
+    //   status = 2;
+    //   socket.emit('left')
+    // }
+    // else if(x < -14) {   
+    //  status = 1;
+    //  socket.emit('right');
+    // }
+    else if (z > 15) {
+      socket.emit('claw-down');
     }
-    else if(x > 14) { 
-      status = 2;
-      socket.emit('left')
+    else if (z < 15) {
+      socket.emit('claw-up');
     }
-    else if(x < -14) {   
-     status = 1;
-     socket.emit('right');
-    }
-    else if (z > 14) {
-      status = 4;
-      socket.emit('forward');
-    }
-    else if (z < 14) {
-      status = 5;
-      socket.emit('reverse');
-    }       
-    else {   
-        status = 3;
-        socket.emit('brake')
-    }
+
+    // else {   
+    //     status = 3;
+    //     socket.emit('brake')
+    // }
   })
 }
 
