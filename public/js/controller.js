@@ -140,7 +140,7 @@ Controller.prototype.gyroControl = function(socket) {
   var z;
   gyro.startTracking(function(o) {
     x = o.x * 5;
-    z = o.z * 2;
+    z = o.z * 4;
     socket.emit('accel', o);
     
     if (z > -15 && z < 15) {
