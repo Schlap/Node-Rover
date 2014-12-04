@@ -162,6 +162,28 @@ section#vision {
 }
 
 /*---------------------------
+    Gyro Toggle
+----------------------------*/
+
+section#gyro {
+  overflow: visible;
+  position: absolute;
+  bottom: 10vh;
+  top: 25%;
+  right: 15%;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+svg#gyro-toggle {
+  width: 5vw;
+  height: 5vw;
+}
+
+/*---------------------------
     Login Form
 ----------------------------*/
 
