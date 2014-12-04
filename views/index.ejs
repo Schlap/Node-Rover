@@ -20,19 +20,17 @@
   </header>
 
 <% if (!login) { %>
-  <div data-role="popup" id="popupLogin" data-overlay-theme="a" data-theme="a" class="ui-corner-all">
-        <form id="popuplogin">
-            <div style="padding:10px 20px;">
-                <h3>Please Login</h3>
-                <label for="un" class="ui-hidden-accessible">Email:</label>
-                <input type="text" name="email" id="email" value="" placeholder="username" data-theme="a">
-                <label for="pw" class="ui-hidden-accessible">Password:</label>
-                <input type="password" name="password" id="password" value="" placeholder="password" data-theme="a">
-                <button type="button" data-theme="b" data-icon="check" data-inline="true" onclick="validLogin()">Sign in</button>
-            </div>
-        </form>
-        <section id="loginerror"></section>
-        </div>
+  <section data-role="popup" id="popupLogin" data-overlay-theme="a" data-theme="a" class="ui-corner-all">
+    <form id="popuplogin">
+      <h3>Please Login</h3>
+      <label for="un" class="ui-hidden-accessible">Email:</label>
+      <input type="text" name="email" id="email" value="" placeholder="username" data-theme="a">
+      <label for="pw" class="ui-hidden-accessible">Password:</label>
+      <input type="password" name="password" id="password" value="" placeholder="password" data-theme="a">
+      <button type="submit" data-theme="b" data-icon="check" data-inline="true" onclick="validLogin()">Sign in</button>
+    </form>
+    <section id="loginerror"></section>
+  </section>
 <% }else{ %>
 
   <main>
