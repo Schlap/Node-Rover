@@ -25,10 +25,11 @@
     <section id="loginerror"></section>
   </section>
 <% }else{ %>
-
+  
   <main>
 
      <section id="gyro">
+
 
        <svg id="gyro-toggle" viewBox="0 0 100 100">
         <rect id="Rectangle" class="control-container" data-action="gyro-toggle" width="350" height="100" transform="translate(0, 0)" rx="15" ry="15"></rect>
@@ -133,7 +134,7 @@
   </main>
 
  
- <% } %>
+ <% } %> 
 
   <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
   <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
@@ -143,6 +144,11 @@
   <script src="/js/controller.js"></script>
   <script src="/js/interface.js"></script>
 
+  <% if(login) { %>
+  <script>
+    init();
+  </script>
+ <% } %>
 
 </body>
 

@@ -12,7 +12,6 @@ function validLogin(){
           $("#popupLogin").fadeOut('slow', function() {
             $(document.body).load(page).fadeIn('slow');
           });
-          init();
         }else{
           console.log('fail');
             $("#loginerror").html('<p>' + result + '<p>');
@@ -29,4 +28,5 @@ function init() {
   controller.init(socket);
   socket.emit('start');
 }
+
 
