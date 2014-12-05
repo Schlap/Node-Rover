@@ -46,7 +46,7 @@ function Server() {
   this.sockets = [];
   this.app = app; 
   this.controller = null
-  this.twitterControl = null;
+  this.twitterControl = new TwitterControl();
   this.server = server
   this.arduinoTcp = null;
   this.tcpServer = null;
@@ -121,7 +121,8 @@ Server.prototype.tcpServerListen = function() {
     if (_this.tcpServer) {
       console.log('num of connections on port 1337: ' + _this.tcpServer.getConnections);
       _this.arduinoTcp = socket;
-     _this.twitterControl = new TwitterControl(_this.arduinoTcp).init();
+      _this.twitterControl.arduino = _this.arduinoTcp
+      _this.twitterControl.init();
       if(_this.controller) _this.controller.arduino = _this.arduinoTcp
 
     socket.on('data', function (mydata) {

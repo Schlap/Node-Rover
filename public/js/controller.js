@@ -8,7 +8,7 @@ function Controller(socket)
 Controller.prototype.init = function(socket) {
   this.listenOnMotors(socket);
   this.listenOnClaw(socket);
-  // this.listenOnVision(socket);
+  this.listenOnVision(socket);
   this.onKeyPress(socket);
   this.onKeyUp(socket);
   this.listenOnGyro(socket);
@@ -40,12 +40,10 @@ Controller.prototype.listenOnGyro = function(socket) {
 }
 
 
-// Controller.prototype.listenOnVision = function(socket) {
-//   this.onLookRight(socket);
-//   this.onLookLeft(socket);
-//   this.onLookUp(socket);
-//   this.onLookDown(socket);
-// };
+Controller.prototype.listenOnVision = function(socket) {
+  this.onLookRight(socket);
+  this.onLookLeft(socket);
+};
   
 Controller.prototype.onRightClick = function(socket) {
   $(document).on('mousedown touchstart', '#move-right', function(){
@@ -101,17 +99,17 @@ Controller.prototype.onClawRelease = function(socket) {
   });
 };
 
-// Controller.prototype.onLookRight = function(socket) {
-//   $(document).on('mousedown touchstart', '#look-right', function() {
-//     socket.emit('look-right');
-//   });
-// };
+Controller.prototype.onLookRight = function(socket) {
+  $(document).on('mousedown touchstart', '#look-up', function() {
+    socket.emit('look-right');
+  });
+};
 
-// Controller.prototype.onLookLeft = function(socket) {
-//   $(document).on('mousedown touchstart', '#look-left', function() {
-//     socket.emit('look-left');
-//   });
-// };
+Controller.prototype.onLookLeft = function(socket) {
+  $(document).on('mousedown touchstart', '#look-down', function() {
+    socket.emit('look-left');
+  });
+};
 
 // Controller.prototype.onLookLeft = function(socket) {
 //   $(document).on('mousedown touchstart', '#look-up', function() {
