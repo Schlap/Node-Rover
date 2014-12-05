@@ -1,6 +1,8 @@
-function Controller()
+function Controller(socket)
 {
   this.keys = [65, 68, 82, 83, 87];
+  this.socket = socket;
+  this.gyroToggle = [this.gyroControlOn, this.gyroControlOff];
 }
 
 Controller.prototype.init = function(socket) {
@@ -9,7 +11,7 @@ Controller.prototype.init = function(socket) {
   // this.listenOnVision(socket);
   this.onKeyPress(socket);
   this.onKeyUp(socket);
-  // this.gyroControl(socket);
+  this.listenOnGyro(socket);
 };
 
 Controller.prototype.listenOnMotors = function(socket) {
@@ -27,6 +29,17 @@ Controller.prototype.listenOnClaw = function(socket) {
   this.onClawRelease(socket);
 };
 
+Controller.prototype.listenOnGyro = function(socket) {
+  _this = this;
+  $(document).ready(function() {
+     $(document).on('click', '#gyroText, #gyro-toggle', function () {
+    _this.gyroToggle.reverse()[1](_this);
+    console.log($(document).find('#gyroText').text())      
+   });
+  })
+}
+
+
 // Controller.prototype.listenOnVision = function(socket) {
 //   this.onLookRight(socket);
 //   this.onLookLeft(socket);
@@ -35,7 +48,6 @@ Controller.prototype.listenOnClaw = function(socket) {
 // };
   
 Controller.prototype.onRightClick = function(socket) {
-  console.log(socket)
   $(document).on('mousedown touchstart', '#move-right', function(){
     socket.emit('right');
   });
@@ -134,37 +146,33 @@ Controller.prototype.onKeyUp = function(socket) {
   });
 }
 
-Controller.prototype.gyroControl = function(socket) {
+Controller.prototype.gyroControlOn = function(_this) {
+  console.log('yes')
+  $(document).find('#gyroText').text('Gyro Off');
   var status = 0;
   var x;
   var z;
   gyro.startTracking(function(o) {
     x = o.x * 5;
     z = o.z * 4;
-    socket.emit('accel', o);
+    _this.socket.emit('accel', o);
     
     if (z > -15 && z < 15) {
-       socket.emit('claw-stop');
+      _this.socket.emit('claw-stop');
     }     
-    // else if(x > 14) { 
-    //   status = 2;
-    //   socket.emit('left')
-    // }
-    // else if(x < -14) {   
-    //  status = 1;
-    //  socket.emit('right');
-    // }
     else if (z > 15) {
-      socket.emit('claw-down');
+      _this.socket.emit('claw-down');
     }
     else if (z < 15) {
-      socket.emit('claw-up');
+      _this.socket.emit('claw-up');
     }
-
-    // else {   
-    //     status = 3;
-    //     socket.emit('brake')
-    // }
   })
+}
+
+
+Controller.prototype.gyroControlOff = function(_this) {
+  console.log('no')
+  $(document).find('#gyroText').text('Gyro On');
+  gyro.stopTracking()
 }
 

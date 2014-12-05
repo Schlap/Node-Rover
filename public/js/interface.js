@@ -23,11 +23,10 @@ function validLogin(){
 }
 
 function init() {
-  var controller = new Controller();
-  var socket = io.connect();
+  var socket = io();
+  console.log(socket.io.subs);
+  var controller = new Controller(socket);
   controller.init(socket);
   socket.emit('start');
 }
 
-$(document).ready(function(){
-});
