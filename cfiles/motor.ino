@@ -1,13 +1,26 @@
 #include "Arduino.h"
+#include <Servo.h>
 #include <WiFlyHQ.h>
+
+
 
 WiFly wifly;
 byte server[] = { 127, 0, 0, 1};
 
-const char mySSID[] = "ZyXEL1374utj";
-const char myPassword[] = "yaahctjwae";
+//const char mySSID[] = "Makers$Academy";
+//const char myPassword[] = "makersWelcome";
 
-const char site[] = "192.168.1.34";
+const char site[] = "192.168.50.34";
+
+//Servos
+
+Servo arm;
+Servo claw;
+Servo pan;
+
+int aPos = 90;
+int cPos = 90;
+int pPos = 90;
 
 //Motors
 
@@ -33,6 +46,10 @@ void setup()
   Serial.begin(57600);
   
   delay(1000);
+
+  claw.attach(10);
+  arm.attach(11);
+  pan.attach(12);
   
   pinMode(pwm_a,OUTPUT); 
   pinMode(pwm_b,OUTPUT); 
@@ -48,21 +65,21 @@ void setup()
      Serial.println("Failed to start wifly");
   }
   
-  if (!wifly.isAssociated()) {
-  /* Setup the WiFly to connect to a wifi network */
-  Serial.println("Joining network");
-  wifly.setSSID(mySSID);
-  wifly.setPassphrase(myPassword);
-  wifly.enableDHCP();
-
-  if (wifly.join()) {
-      Serial.println("Joined wifi network");
-  } else {
-      Serial.println("Failed to join wifi network");
-  }
-    } else {
-        Serial.println("Already joined network");
-    }
+//  if (!wifly.isAssociated()) {
+//  /* Setup the WiFly to connect to a wifi network */
+//  Serial.println("Joining network");
+//  wifly.setSSID(mySSID);
+//  wifly.setPassphrase(myPassword);
+//  wifly.enableDHCP();
+//
+//  if (wifly.join()) {
+//      Serial.println("Joined wifi network");
+//  } else {
+//      Serial.println("Failed to join wifi network");
+//  }
+//    } else {
+//        Serial.println("Already joined network");
+//    }
    
    Serial.println("WiFly ready");
    Serial.println(wifly.getIP(buf, sizeof(buf)));
@@ -81,7 +98,7 @@ void loop()
     
   if (wifly.isConnected() == false) {
   Serial.println("Connecting");
-  if (wifly.open("192.168.1.34", 1337)) {
+  if (wifly.open(site, 1337)) {
       Serial.println("Connected");
       connectTime = millis();
   } else {
@@ -158,9 +175,85 @@ void loop()
       analogWrite(pwn_c,200);
       analogWrite(pwn_d,200);
     }
+
+    if(b == 'o'){
+      for(aPos; aPos < 100; aPos++) {
+        b = Serial.read();
+        if (b == 's' || b == 'l') {
+          arm.write(aPos);
+          break;
+        } 
+        arm.write(aPos);               
+        delay(15);                       
+       }; 
+     };
+       
+    if(b == 'p'){
+      Serial.println(aPos);
+      for(aPos; aPos > 0; aPos--) {
+        b = Serial.read();
+        if (b == 's' || b == 'l') {
+          arm.write(aPos);
+          break;
+        }  
+        arm.write(aPos);               
+        delay(15);                       
+       }; 
+    };
+    
+    if(b == '0'){
+      Serial.println(cPos);
+      for(cPos; cPos < 160; cPos++) {
+        b = Serial.read();
+        if (b == 's') {
+          claw.write(cPos);
+          break;
+        }  
+        claw.write(cPos);               
+        delay(5);                       
+       };
+    };
+    
+    if(b == '9'){
+      Serial.println(cPos); 
+      for(cPos; cPos > 0; cPos--) {
+        b = Serial.read();
+        if (b == 's') {
+          claw.write(cPos);
+          break;
+        } 
+        claw.write(cPos);               
+        delay(5);                       
+       };
+    };
+    
+    if(b == 'n'){
+      Serial.println(pPos); 
+      for(pPos; pPos < 180; pPos++) {
+        b = Serial.read();
+        if (b == 's') {
+          pan.write(pPos);
+          break;
+        } 
+        pan.write(pPos);               
+        delay(5);                       
+       };
+    };;
+    
+    if(b == 'm'){
+      Serial.println(pPos); 
+      for(cPos; cPos > 0; pPos--) {
+        b = Serial.read();
+        if (b == 's') {
+          pan.write(pPos);
+          break;
+        } 
+        pan.write(pPos);               
+        delay(5);                       
+       };
+    };
+      
    } 
  }
 }
- 
-
  
