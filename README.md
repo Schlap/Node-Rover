@@ -1,4 +1,4 @@
-Node Rover - Yelp clone
+Node Rover - Makers Academy Final Project
 ========================
 
 ## Node Rover
@@ -60,8 +60,3 @@ Start the node server and visit http://localhost:3000/
 
 ```
 $ node server.js
-
-We are building a robot from scratch using node.js
-
-Using Node, Http server, TCP server, socket io.
-Arduino.
