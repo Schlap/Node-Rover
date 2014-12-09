@@ -33,6 +33,13 @@ Node.js, JavaScript and Mocha were all somewhat familar to the team members. The
 - [ ] Add an IP camera in order to use the video stream code that was incorporated.
 - [ ] Write code the the built in engine Encoders on the rover (for precision control).
 
+### Collaborators
+Andrew Snead - (http://www.github.com/snozza)
+Hadi Chalabi - (http://www.github.com/Schlap)
+Zeeshan Rasool - (http://www.github.com/zrasool88)
+Colin S - (http://www.github.com/mala23)
+Andrew Harrison - (http://www.github.com/AndrewHarrison)
+
 ### Instructions
 
 The live version of the site will be launched shortly.
@@ -60,3 +67,23 @@ Start the node server and visit http://localhost:3000/
 
 ```
 $ node server.js
+
+```
+
+### Special Hardware
+
+Please note that the app is written for the Arduino Uno combined with a RN-XV Wifly Module, Wireless SD Shield, and a 4 motor controller shield. The code will likely need to be modified to accomodate other products.
+
+### Additional Info
+
+You will also need to sign up for a Twitter Dev account in order to use the Twitter control functionality. Add a file called config.js to the root of /node_modules/twit and add it to your .gitignore file. Then add the following (replaced with your details):
+
+```
+module.exports = {
+  consumer_key: '...'
+  , consumer_secret: '...'
+  , access_token: '...'
+  , access_token_secret: '...'
+}
+
+```
